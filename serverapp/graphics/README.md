@@ -1,1 +1,0 @@
-Graphics are located here.
