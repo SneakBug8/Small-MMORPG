@@ -1,7 +1,9 @@
 # Ancaria-Online
 
 Simple android MMORPG project
+
 Now in developement.
+
 Game VKontakte group: https://vk.com/anconline
 
 
