@@ -10,21 +10,25 @@ physics.setGravity( 0, 0 )
 print ("Game started")
 crypto = require("crypto")
 require("noobhub")
-local composer = require( "composer" )
-local widget = require( "widget" )
--- mui
-
+require( "widget" )
+--[[local composer = require( "composer" )
 local scene = composer.newScene()
-local weapon={"Деревянный меч",1}
-local armor={"Одежда",1}
-local money="100"
-local needup = 0
-local needdown = 0
-local needleft = 0
-local needright = 0
+local mui = require( "materialui.mui" )
+mui.init()]]--
+local items= {0,0,0,0,0,0,0,0,0}
+local invitem1 = 0
+local invitem2 = 0
+local invitem3 = 0
+local invitem4 = 0
+local invitem5 = 0
+local invitem6 = 0
+local invitem7 = 0
+local invitem8 = 0
+local invitem9 = 0
 local scene  = display.newGroup()
 local controls = display.newGroup()
 local inventory = display.newGroup()
+items[1]=1
 local id = math.random(0,100)
 local map = display.newImage (scene,"map1.png",  display.contentCenterX+16, display.contentCenterY+16)
 -- local layer2 = display.newImage (map, "layer2.png")
@@ -39,11 +43,22 @@ local invbutton = display.newImage (controls,"inv.png" , rightbutton.x+64 , righ
 local coords = display.newText(controls,"Hello World!", 100, 200, native.systemFont, 16 )
 local menu = display.newImage (inventory,"menu.jpg" ,display.contentCenterX , display.contentCenterY)
 
+local chatinput = native.newTextField(controls,display.contentCenterX, display.contentCenterY, 250, 25)
 local send = display.newImage (controls,"send.png" ,display.contentCenterX+135, 0)
+
+--[[mui.newNavbar({
+        name = "navbar_demo",
+        --width = mui.getScaleVal(500), -- defaults to display.contentWidth
+        height = mui.getScaleVal(70),
+        left = 0,
+        top = 0,
+        fillColor = { 0.63, 0.81, 0.181 },
+        activeTextColor = { 1, 1, 1, 1 },
+        padding = mui.getScaleVal(10),
+    })]]--
 
 local mycloud = display.newText("", character.x, character.y-25, native.systemFont, 16 )
 local hiscloud = display.newText("", player.x, player.y-25, native.systemFont, 16 )
-local chatinput = native.newTextField(display.contentCenterX, display.contentCenterY, 250, 25)
 chatinput.anchorX=0.5
 chatinput.anchorY=0.5
 chatinput.x = display.contentCenterX-25
@@ -52,27 +67,9 @@ chatinput.height=25
 local packet={}
 local x=0
 
-local sheetOptions =
-{
-    width = 32,
-    height = 32,
-    numFrames = 96
-}
-local charsheet = graphics.newImageSheet( "char1.png", sheetOptions )
-local charsequence = {
-    -- consecutive frames sequence
-    {
-        name = "walk",
-        start = 1,
-        count = 3,
-        time = 800,
-        loopCount = 0,
-        loopDirection = "forward"
-    }
-}
 
 function sendchat()
-notify(chatinput.text)
+mycloud.text = chatinput.text
 packet[1]=id
 packet[2]="chat"
 packet[5]=chatinput.text
@@ -83,6 +80,7 @@ hub:publish({
 		}
 		})
 chatinput.text=""
+timer.performWithDelay( 1000, removecloud, 1 )
 end
 send:addEventListener( "tap", sendchat )
 function reload ()
@@ -118,31 +116,54 @@ hub:publish({
 			timestamp = system.getTimer()
 		}
 		})
-checkloot()
 end
 
 function goup()
-map.y=map.y+32
+	--[[map.y=map.y+32
 	player.y=player.y+32
-	reload()
+	reload()]]--
+function move ()
+		map.y=map.y+1
+		player.y=player.y+1
+		reload()
+	end
+	timer.performWithDelay( 1, move, 32)
 end
 upbutton:addEventListener( "tap", goup )
 function godown()
-map.y=map.y-32
+	--[[map.y=map.y-32
 	player.y=player.y-32
+	reload()]]--
+	function move ()
+		map.y=map.y-1
+	player.y=player.y-1
 	reload()
+	end
+	timer.performWithDelay( 1, move, 32)
 end
 downbutton:addEventListener( "tap", godown )
 function goleft()
-map.x=map.x+32
+	--[[map.x=map.x+32
 	player.x=player.x+32
+	reload()]]--
+	function move ()
+	map.x=map.x+1
+	player.x=player.x+1
 	reload()
+	end
+	timer.performWithDelay( 1, move, 32)
 end
 leftbutton:addEventListener( "tap", goleft )
 function goright()
-map.x=map.x-32
+	--[[map.x=map.x-32
 	player.x=player.x-32
+	reload()]]--
+	function move ()
+	map.x=map.x-1
+	player.x=player.x-1
 	reload()
+	end
+	timer.performWithDelay( 1, move, 32)
 end
 rightbutton:addEventListener( "tap", goright )
 function reader(message)
@@ -187,15 +208,64 @@ menu:removeSelf()
 		hiscloud.text=""
 	end
 
+function getitem(itemname)
+itemid=items[itemname]
+return itemid
+end
+
+
+
 function showinventory()
 	inventory.x=0
 invbackground = display.newImage (inventory,"invbackground.png" ,display.contentCenterX , display.contentCenterY)
-local stats = display.newText(inventory,"ATK: "..weapon[2].." DEF: "..armor[2],display.contentCenterX, display.contentCenterY-80, native.systemFont, 24)
-local weapontext = display.newText(inventory,"Оружие: "..weapon[1].." ATK:"..weapon[2], display.contentCenterX, display.contentCenterY, native.systemFont, 16 )
-local armortext = display.newText(inventory,"Броня: "..armor[1].." DEF: "..armor[2], display.contentCenterX , display.contentCenterY+64, native.systemFont, 16 )
-local moneytext = display.newText(inventory,"Золото: "..money, display.contentCenterX , display.contentCenterY+128, native.systemFont, 16 )
+invitem1= display.newImage (inventory,"0.png", display.contentCenterX-65,display.contentCenterY-65)
+invitem2= display.newImage (inventory,"0.png", display.contentCenterX,display.contentCenterY-65)
+invitem3= display.newImage (inventory,"0.png", display.contentCenterX+65,display.contentCenterY-65)
+invitem4= display.newImage (inventory,"0.png", display.contentCenterX-65,display.contentCenterY)
+invitem5= display.newImage (inventory,"0.png", display.contentCenterX,display.contentCenterY)
+invitem6= display.newImage (inventory,"0.png", display.contentCenterX+65,display.contentCenterY)
+invitem7= display.newImage (inventory,"0.png", display.contentCenterX-65,display.contentCenterY+65)
+invitem8= display.newImage (inventory,"0.png", display.contentCenterX,display.contentCenterY+65)
+invitem9= display.newImage (inventory,"0.png", display.contentCenterX+65,display.contentCenterY+65)
 
 local closeinv = display.newImage (inventory,"closeinv.png" , display.contentWidth-32, 15)
+
+if #tostring(items[1]>0) then
+id = getitem(1)
+invitem1= display.newImage (inventory,id..".png", display.contentCenterX-65,display.contentCenterY-65)
+end
+if #tostring(items[2]>0) then
+id = getitem(2)
+invitem2= display.newImage (inventory,id..".png", display.contentCenterX,display.contentCenterY-65)
+end
+if #tostring(items[3]>0) then
+id = getitem(3)
+invitem3= display.newImage (inventory,id..".png", display.contentCenterX+65,display.contentCenterY-65)
+end
+if #tostring(items[4]>0) then
+id = getitem(4)
+invitem4= display.newImage (inventory,id..".png", display.contentCenterX-65,display.contentCenterY)
+end
+if #tostring(items[5]>0) then
+id = getitem(5)
+invitem5= display.newImage (inventory,id..".png", display.contentCenterX,display.contentCenterY)
+end
+if #tostring(items[6]>0) then
+id = getitem(6)
+invitem6= display.newImage (inventory,id..".png", display.contentCenterX+65,display.contentCenterY)
+end
+if #tostring(items[7]>0) then
+id = getitem(7)
+invitem7= display.newImage (inventory,id..".png", display.contentCenterX-65,display.contentCenterY+65)
+end
+if #tostring(items[8]>0) then
+id = getitem(8)
+invitem8= display.newImage (inventory,id..".png", display.contentCenterX,display.contentCenterY+65)
+end
+if #tostring(items[9]>0) then
+id = getitem(9)
+invitem9= display.newImage (inventory,id..".png", display.contentCenterX+65,display.contentCenterY+65)
+end
 function hideinventory()
 	-- body
 inventory.x=1000
@@ -203,32 +273,3 @@ end
 closeinv:addEventListener( "tap", hideinventory )
 end
 invbutton:addEventListener( "tap", showinventory )
-function checkloot()
-	-- body
-	if coordx==15 and coordy==15 then
-		addarmor("Доспех",2)
-	end
-end
-
-function addarmor(name, def)
-	-- body
-armor[1]=name
-armor[2]=def
-notify("Подобрано: "..armor[1].." DEF: "..armor[2])
-end
-
-function addweapon(name, atk)
-	-- body
-	weapon[1]=name
-	weapon[2]=atk
-end
-
-function addmoney(count)
-	-- body
-	money=money+count
-end
-
-function notify (text)
-	mycloud.text=text
-	timer.performWithDelay( 2000, removecloud, 1 )
-end
