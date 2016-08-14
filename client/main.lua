@@ -3,31 +3,21 @@
 -- main.lua
 --
 -----------------------------------------------------------------------------------------
-local physics = require( "physics" )
-physics.start()
-physics.setGravity( 0, 0 )
 -- Your code here
 print ("Game started")
 crypto = require("crypto")
 require("noobhub")
-local composer = require( "composer" )
-local widget = require( "widget" )
-local scene = composer.newScene()
-local mui = require( "materialui.mui" )
 local weapon={"Деревянный меч",1}
 local armor={"Одежда",1}
 local money="100"
-local needup = 0
-local needdown = 0
-local needleft = 0
-local needright = 0
 local scene  = display.newGroup()
+local playergroup = display.newGroup()
 local controls = display.newGroup()
 local inventory = display.newGroup()
-_G.id = math.random(0,100)
+
 local map = display.newImage (scene,"map1.png",  display.contentCenterX+16, display.contentCenterY+16)
 -- local layer2 = display.newImage (map, "layer2.png")
-local character = display.newImage (scene,"char.png" ,display.contentCenterX , display.contentCenterY)
+local character = display.newImage (scene, "char.png" ,display.contentCenterX , display.contentCenterY)
 local player = display.newImage (scene,"char.png",1000,1000)
 local upbutton = display.newImage (controls,"up.png" , 165, 400)
 local downbutton = display.newImage (controls,"down.png" , upbutton.x , upbutton.y+64)
@@ -35,7 +25,8 @@ local leftbutton = display.newImage (controls,"left.png" , upbutton.x-64 , upbut
 local rightbutton = display.newImage (controls,"right.png" , upbutton.x+64 , upbutton.y+64)
 local invbutton = display.newImage (controls,"inv.png" , rightbutton.x+64 , rightbutton.y-64)
 local atkbutton = display.newImage (controls,"attack.png" , leftbutton.x-64 , rightbutton.y-64)
-local players={}
+
+local playerobj={}
 local playersid={}
 
 local coords = display.newText(controls,"Hello World!", 100, 200, native.systemFont, 16 )
@@ -54,30 +45,10 @@ chatinput.x = display.contentCenterX-25
 chatinput.y=0
 chatinput.height=25
 local packet={}
-local x=0
 local startbutton = display.newImage (inventory,"start.png" , chatinput.x , chatinput.y+128)
-local sheetOptions =
-{
-    width = 32,
-    height = 32,
-    numFrames = 96
-}
-local charsheet = graphics.newImageSheet( "char1.png", sheetOptions )
-local charsequence = {
-    -- consecutive frames sequence
-    {
-        name = "walk",
-        start = 1,
-        count = 3,
-        time = 800,
-        loopCount = 0,
-    }
-}
 
+local nickname=""
 
-local nickname="-"
-
-print (math.randomseed (5))
 function sendchat()
 notify(chatinput.text)
 packet[1]=nickname
@@ -92,10 +63,8 @@ hub:publish({
 chatinput.text=""
 end
 send:addEventListener( "tap", sendchat )
+
 function reload ()
-	if x == 1 then
-		login()
-	end
 mycloud.x=character.x
 mycloud.y=character.y-25
 hiscloud.x=player.x
@@ -114,14 +83,14 @@ elseif character.y<map.y-1024 then
 		map.x=map.x-32
 		character.x=map.x-1024+16	
 		end
-coordx=-(((map.x-1024-176+32)/32)-1)
-coordy=-(((map.y-1024-256+32)/32)-1)
-coords.text = "X: "..coordx.." Y: "..coordy
+coord()
+coords.text = map.x.." "..map.y
+-- "X: "..coordx.." Y: "..coordy
 local packet={}
 packet[1]=nickname
 packet[2]="move"
-packet[3]=coordx
-packet[4]=coordy
+packet[3]=map.x-character.x
+packet[4]=map.y-character.y
 hub:publish({
 		message = {
 			action  =  packet,
@@ -133,55 +102,47 @@ end
 
 function goup()
 map.y=map.y+32
-	player.y=player.y+32
+playergroup.y=playergroup.y+32
+--[[map.y=map.y+32
+	player.y=player.y+32]]--
 	reload()
 	napr = "up"
 end
 upbutton:addEventListener( "tap", goup )
 function godown()
 map.y=map.y-32
-	player.y=player.y-32
+	playergroup.y=playergroup.y-32
 	reload()
 	napr = "down"
 end
 downbutton:addEventListener( "tap", godown )
 function goleft()
 map.x=map.x+32
-	player.x=player.x+32
+	playergroup.x=playergroup.x+32
 	reload()
 	napr = "left"
 end
 leftbutton:addEventListener( "tap", goleft )
 function goright()
 map.x=map.x-32
-	player.x=player.x-32
+	playergroup.x=playergroup.x-32
 	reload()
 	napr = "right"
 end
 rightbutton:addEventListener( "tap", goright )
 function reader(message)
-	print ("Получен пакет "..message.action[2])
-mycloud.x=character.x
-mycloud.y=character.y-25
-hiscloud.x=player.x
-hiscloud.y=player.y-25
-_G.coordx=-(((map.x-1024-176+32)/32)-1)
-_G.coordy=-(((map.y-1024-256+32)/32)-1)
-print (message.action)
+	print (message.action[1].."  "..message.action[2].."  "..message.action[3].." "..message.action[4])
 if message.action[1]~=nickname then
-if x==0 then
-login()
-x=1
-end
-hisnick=message.action[1]
 if message.action[2]=="move" then
 	for i=1,10 do
 		if playersid[i]==message.action[1] then
 print (message.action[3].." "..message.action[4])
-local playerx=(coordx-message.action[3])*32
-local playery=(coordy-message.action[4])*32
-player[i].x = display.contentCenterX-playerx
-player[i].y = display.contentCenterY-playery
+-- local playerx=-(coordx-message.action[3])*32
+-- local playery=-(coordy-message.action[4])*32
+playerobj[i].x = map.x+(-message.action[3])
+-- display.contentCenterX-playerx
+playerobj[i].y = map.y+(-message.action[4])
+-- display.contentCenterY-playery
 break
 end
 end
@@ -191,14 +152,31 @@ timer.performWithDelay( 1000, removecloud, 1 )
 elseif message.action[2]=="login" then
 	for i=1,10 do
 		if playersid[i]==nil then
+		coord()
 playersid[i]=message.action[1]
-player[i]=display.newImage (scene,"char.png",1000,1000)
-print ("Вошел игрок с id "..playersid[i])
+playerobj[i]=display.newImage (playergroup,"char.png",1000,1000)
+playerobj[i].x = map.x+(-message.action[3])
+-- display.contentCenterX-playerx
+playerobj[i].y = map.y+(-message.action[4])
+--[[playerobj[i].x = (map.x-1024)+(message.action[3]*32)
+playerobj[i].y = (map.y-1024)+(coordy-message.action[4]*32)
+print ("Вошел игрок с id "..playersid[i])]]--
+login()
 break
 		end
 	end
 end
 end
+end
+function coord()
+_G.coordx=-(((map.x-1024)-character.x+16)/32)+1
+-- (((map.x-1024-176+32)/32)-1)
+-- -(((map.x - character.x)/32)-0.5+32)
+-- -(((map.x-1024-176+32)/32)-1)
+_G.coordy=-(((map.y-1024)-character.y+16)/32)+1
+-- (((map.y-1024-256+48)/32)-1.5)
+-- ((map.y - character.y)/32)-0.5
+-- -(((map.y-1024-256+32)/32)-1)
 end
 function start ()
 nickname = chatinput.text
@@ -208,7 +186,7 @@ network.request(passfile, "GET", passlistener )
 chatinput.text=""
 hub = noobhub.new({ server = "46.4.76.236"; port = 1337; });
 hub:subscribe({
-	channel = "game";
+	channel = "ancaria";
 	callback = reader
 	});
 login()
@@ -218,19 +196,6 @@ startbutton:removeSelf()
 -- load
 function loaddata()
 	passinput:removeSelf()
---[[local path = system.pathForFile( "status.txt", system.DocumentsDirectory )
-local file, errorString = io.open( path, "r" )
-if not file then
-    -- Error occurred; output the cause
-    print( "File error: " .. errorString )
-_G.charstatus = "Житель"
-else
-    -- Read data from file
- _G.charstatus = file:read( "*a" )
-    -- Output the file contents
-    -- Close the file handle
-    io.close( file )
-end]]--
 if nickname=="" then
 charstatus="Житель"
 else
@@ -255,8 +220,7 @@ end
  function login ()
  	-- body
  print ("Login")
-_G.coordx=-(((map.x-1024-176+32)/32)-1)
-_G.coordy=-(((map.y-1024-256+32)/32)-1)
+coord()
  	local packet={}
 packet[1]=nickname
 packet[2]="login"
@@ -285,6 +249,7 @@ local armortext = display.newText(inventory,"Броня: "..armor[1].." DEF: "..
 local moneytext = display.newText(inventory,"Золото: "..money, display.contentCenterX , display.contentCenterY+128, native.systemFont, 16 )
 
 local closeinv = display.newImage (inventory,"closeinv.png" , display.contentWidth-32, 15)
+
 function hideinventory()
 	-- body
 inventory.x=1000
@@ -340,7 +305,6 @@ atkbutton:addEventListener( "tap", attack )
 
 function destroysword()
 	attackanim:removeSelf()
-	-- body
 end
 
 function statuslistener( event )
@@ -363,7 +327,6 @@ function armor1listener( event )
         print( "Network error: ", event.response )
         charstatus="Житель"
     else
-        print ( "RESPONSE: " .. event.response )
 armor[1]=event.response
     end
 end
@@ -373,7 +336,6 @@ function armor2listener( event )
         print( "Network error: ", event.response )
         charstatus="Житель"
     else
-        print ( "RESPONSE: " .. event.response )
         armor[2]=event.response
     end
 end
@@ -383,7 +345,6 @@ function weapon1listener( event )
         print( "Network error: ", event.response )
         charstatus="Житель"
     else
-        print ( "RESPONSE: " .. event.response )
        weapon[1]=event.response
     end
 end
@@ -394,7 +355,6 @@ function weapon2listener( event )
         print( "Network error: ", event.response )
         charstatus="Житель"
     else
-        print ( "RESPONSE: " .. event.response )
         weapon[2]=event.response
     end
 end
@@ -405,7 +365,6 @@ function moneylistener( event )
         print( "Network error: ", event.response )
         charstatus="Житель"
     else
-        print ( "RESPONSE: " .. event.response )
        money=event.response
     end
 end
@@ -416,7 +375,6 @@ function passlistener( event )
         print( "Network error: ", event.response )
         charstatus="Житель"
     else
-        print ( "RESPONSE: " .. event.response )
        password = event.response
     end
 end
