@@ -1,0 +1,1 @@
+Scripts are located here.
