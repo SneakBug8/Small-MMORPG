@@ -1,1 +1,0 @@
-Maps are located here.
