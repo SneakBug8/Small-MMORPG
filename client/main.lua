@@ -35,12 +35,11 @@ print (players[message.nickname].x.." "..players[message.nickname].y)
 elseif players[message.nickname]==nil and message.nickname~=id then
 	print ("Нов пакет")
 -- _G.nick=tostring(message.nickname)
-players[message.nickname]=display.newImage (playergroup, "assets/characters/char3.png",display.contentCenterX,display.contentCenterY)
+players[message.nickname]=display.newImage (playergroup, "assets/characters/"..message.sprite..".png",display.contentCenterX,display.contentCenterY)
 -- players.nick.x=45
 else
 end
 else
-players[message.nickname].x=1000
 end
 elseif message.type == "chat" then
 -- Chat reading
@@ -60,6 +59,7 @@ hub:publish({
 		message = {
 			nickname=id,
 			type=type,
+			sprite=sprite,
 			location=location,
 			coordx = coordx,
 			coordy = coordy,
@@ -90,38 +90,6 @@ for i = 1, #tps do
 	end
 end
 end
-	function goup()
-		blockcheck(0,-1)
-		tpcheck(0,-1)
-map.y=map.y+32
-	-- player.y=player.y+32
-
-	reload()
-end
-upbutton:addEventListener( "tap", goup )
-function godown()
-blockcheck(0,1)
-tpcheck(0,1)
-map.y=map.y-32
-	reload()
-end
-downbutton:addEventListener( "tap", godown )
-function goleft()
-	blockcheck(-1,0)
-	tpcheck(-1,0)
-map.x=map.x+32
-	-- player.x=player.x+32
-	reload()
-end
-leftbutton:addEventListener( "tap", goleft )
-function goright()
-	blockcheck(1,0)
-	tpcheck(1,0)
-map.x=map.x-32
-	-- player.x=player.x-32
-	reload()
-end
-rightbutton:addEventListener( "tap", goright )
 
 function update()
 	reload()
@@ -131,24 +99,11 @@ end
 
 function goto(scene)
 	composer.gotoScene("assets."..scene)
-	Background:insert(map)
 	location = scene
-end
-function lscene()
-	-- body
-	return lastscene
+	Background:insert(map)
 end
 function showinventory()
-	composer.gotoScene("assets.chatbox")
-	-- battle(100,1,1,100,2,1)
-	-- Don't work
-	--[[ composer.showOverlay( "inventory")
-	_G.inventoryclose = display.newImage ("assets/gui/closeinventory.png",  display.contentWidth-32, 5)
-function closeinv()
-    print ("Closeinv")
-composer.hideOverlay() ]]--
 end
-
 inventory:addEventListener( "tap", showinventory)
 
 

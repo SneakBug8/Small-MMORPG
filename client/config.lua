@@ -2,7 +2,17 @@
 -- For more information on config.lua see the Corona SDK Project Configuration Guide at:
 -- https://docs.coronalabs.com/guide/basics/configSettings
 --
+settings = {
 
+    window = {
+		defaultMode = "fullscreen",
+titleText = {
+            default = "The Rier Reborn",
+        },
+        -- Settings for the desktop window; applies to both Win32 and OS X desktop apps
+    },
+	
+}
 application =
 {
 	content =

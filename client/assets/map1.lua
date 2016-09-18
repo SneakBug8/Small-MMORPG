@@ -18,20 +18,18 @@ local scene = composer.newScene()
 function scene:create( event )
     local sceneGroup = self.view
     -- Code here runs when the scene is first created but has not yet appeared on screen
-_G.map = display.newImage ("assets/maps/map1.png",  display.contentCenterX+16, display.contentCenterY+16)
 end
 
 
 -- show()
 function scene:show( event )
-
     local sceneGroup = self.view
     local phase = event.phase
-
+map = display.newImage (Background,"assets/maps/map1.png",  display.contentCenterX+16, display.contentCenterY+16)
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
 blocks = {{1,2},{2,1}}
-tps = {{30,30,0},{1,1,0}}
+tps = {{24,64,"map0"},{25,64,"map0"}}
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
     end
@@ -40,7 +38,6 @@ end
 
 -- hide()
 function scene:hide( event )
-map=nil
     local sceneGroup = self.view
     local phase = event.phase
 
