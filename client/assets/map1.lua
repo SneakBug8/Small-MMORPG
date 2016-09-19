@@ -23,13 +23,15 @@ end
 
 -- show()
 function scene:show( event )
+display.remove(map)
+display.remove(map)
     local sceneGroup = self.view
     local phase = event.phase
 map = display.newImage (Background,"assets/maps/map1.png",  display.contentCenterX+16, display.contentCenterY+16)
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
 blocks = {{1,2},{2,1}}
-tps = {{24,64,"map0"},{25,64,"map0"}}
+tps = {{31,1,"map0"},{100,100,"map0"}}
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
     end

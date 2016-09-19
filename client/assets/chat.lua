@@ -60,9 +60,8 @@ function chatcheck(message)
 	 elseif string.match (message.chat,"/do") then
 	 message.chat = string.sub(message.chat, 5)
 	 chatprint (message.chat.." ("..message.nickname..")")
-	 elseif string.match (message.chat,"/delme") then
-	 display.remove(players[message.nickname])
-	 players[message.nickname]=nil
+	 elseif string.match (message.chat,"/setname") then
+name= string.sub(message.chat, 9)
 	else
 
 	end

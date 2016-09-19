@@ -17,6 +17,7 @@ hub:subscribe({
 	callback = reader
 	});
 reload()
+goto("map0")
 end
 
 function reader(message)
@@ -105,8 +106,6 @@ end
 function showinventory()
 end
 inventory:addEventListener( "tap", showinventory)
-
-
 
 
 -- Max end. Initiation
