@@ -10,14 +10,13 @@ init()
 
 function  start ()
 	-- body
-	goto("map0")
+	goto("login")
 	hub = noobhub.new({ server = "46.4.76.236"; port = 1337; });
 hub:subscribe({
 	channel = "game";
 	callback = reader
 	});
 reload()
-goto("map0")
 end
 
 function reader(message)
@@ -25,18 +24,18 @@ _G.coordx=-(((map.x-1024-176+32)/32)-1)
 _G.coordy=-(((map.y-1024-256+32)/32)-1)
 if message.type=="move" then
 if message.location==location then
-if players[message.nickname]~=nil and message.nickname~=id then
+if players[message.id]~=nil and message.id~=id then
 -- timers[message.nickname]=system.getTimer()
 -- checkexit(message,timers)
 	local playerx=(coordx-message.coordx)*32
 local playery=(coordy-message.coordy)*32
-players[message.nickname].x= display.contentCenterX-playerx
-players[message.nickname].y = display.contentCenterY-playery
-print (players[message.nickname].x.." "..players[message.nickname].y)
-elseif players[message.nickname]==nil and message.nickname~=id then
+players[message.id].x= display.contentCenterX-playerx
+players[message.id].y = display.contentCenterY-playery
+print (players[message.id].x.." "..players[message.id].y)
+elseif players[message.id]==nil and message.id~=id then
 	print ("Нов пакет")
 -- _G.nick=tostring(message.nickname)
-players[message.nickname]=display.newImage (playergroup, "assets/characters/"..message.sprite..".png",display.contentCenterX,display.contentCenterY)
+players[message.id]=display.newImage (playergroup, "assets/characters/"..message.sprite..".png",display.contentCenterX,display.contentCenterY)
 -- players.nick.x=45
 else
 end
@@ -58,7 +57,8 @@ coordy=-(((map.y-1024-256+32)/32)-1)
 coords.text = "X: "..coordx.." Y: "..coordy
 hub:publish({
 		message = {
-			nickname=id,
+			nickname=nickname,
+			id=id,
 			type=type,
 			sprite=sprite,
 			location=location,
@@ -67,6 +67,7 @@ hub:publish({
 			timestamp = system.getTimer() }
 		})
 print ("Packet sent")
+hpreload()
 end
 
 	-- body
@@ -78,6 +79,15 @@ for i = 1, #blocks do
 		print ("Block!")
 		map.x=map.x+(addx*32)
 		map.y=map.y+(addy*32)
+	end
+end
+end
+function battlecheck(addx,addy)
+temp={coordx+addx,coordy+addy}
+for i = 1, #tps do
+	if temp[1]==battles[i][1] and temp[2]==battles[i][2] then
+		print ("Battle!")
+		battle(myhp,myatk,mydef,battles[i][3],battles[i][4],battles[i][5])
 	end
 end
 end
@@ -94,7 +104,7 @@ end
 
 function update()
 	reload()
-	timer.performWithDelay( 1000, update )
+	timer.performWithDelay( 5000, update )
 	-- body
 end
 
@@ -104,10 +114,26 @@ function goto(scene)
 	Background:insert(map)
 end
 function showinventory()
+if iss==0 then
+native.showWebPopup(0,0, 200, 200, "http://www.etrt.ru/characters/"..nickname..".html")
+iss=1
+else
+native.cancelWebPopup()
+iss=0
+end
 end
 inventory:addEventListener( "tap", showinventory)
 
 
+
+function go(addx,addy)
+for i = 1, 1000 do
+	if players[i]~=nil then
+	players[i].x=players[i].x+addx
+players[i].y=players[i].y+addy
+	end
+end
+end
 -- Max end. Initiation
 start()
 update()

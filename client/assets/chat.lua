@@ -24,6 +24,7 @@ end
 
 function chatsend(sending)
 	-- Output проверка.
+if login==1 then
 if string.match (sending,"/try") then
 trymodif(sending)
 end
@@ -38,13 +39,20 @@ if sending~=nil and sending~="" then
 	print ("Chat sent")
 hub:publish({
 		message = {
-			nickname=id,
+			nickname=nickname,
+			id=id,
 			type="chat",
 			location=location,
 			coordx = coordx,
 			coordy = coordy,
 			chat = sending }
 		})
+end
+else
+login=1
+nickname=sending
+print (nickname)
+goto("map0")
 end
 end
  function outputchatcheck(sending)
@@ -62,6 +70,9 @@ function chatcheck(message)
 	 chatprint (message.chat.." ("..message.nickname..")")
 	 elseif string.match (message.chat,"/setname") then
 name= string.sub(message.chat, 9)
+ elseif string.match (message.chat,"/delme") then
+display.remove(players[message.id])
+players[message.id]=nil
 	else
 
 	end
@@ -88,6 +99,7 @@ function spritemodif(sending)
 sending = string.sub(sending, 9)
 sprite = sending
 print ("Sprite "..id.." "..sprite)
+writesprite(sprite)
 chatsend ("/delme")
 end
 
