@@ -32,15 +32,10 @@ local playery=(coordy-message.coordy)*32
 players[message.id].x= display.contentCenterX-playerx
 players[message.id].y = display.contentCenterY-playery
 print (players[message.id].x.." "..players[message.id].y)
-pnick[message.id].x=players[message.id].x
-pnick[message.id].y=players[message.id].y-24
 elseif players[message.id]==nil and message.id~=id then
 	print ("Нов пакет")
 -- _G.nick=tostring(message.nickname)
-if message.nickname~="none" then
-pnick[message.id] = display.newText(message.nickname, display.contentCenterX,display.contentCenterY, native.systemFont, 16 )
 players[message.id]=display.newImage (playergroup, "assets/characters/"..message.sprite..".png",display.contentCenterX,display.contentCenterY)
-end
 -- players.nick.x=45
 else
 end
@@ -78,10 +73,6 @@ end
 	-- body
 function blockcheck(addx,addy)
 	-- body
-if dial==1 then
-dial=0
-native.cancelWebPopup()
-end
 	temp={coordx+addx,coordy+addy}
 for i = 1, #blocks do
 	if temp[1]==blocks[i][1] and temp[2]==blocks[i][2] then
@@ -92,14 +83,12 @@ for i = 1, #blocks do
 end
 end
 function battlecheck(addx,addy)
-if battles~=nil then
 temp={coordx+addx,coordy+addy}
 for i = 1, #tps do
 	if temp[1]==battles[i][1] and temp[2]==battles[i][2] then
 		print ("Battle!")
 		battle(myhp,myatk,mydef,battles[i][3],battles[i][4],battles[i][5])
 	end
-end
 end
 end
 function tpcheck(addx,addy)
@@ -115,10 +104,6 @@ end
 
 function update()
 	reload()
-	npcturn()
-	if myhp<99 then
-	myhp=myhp+1
-	end
 	timer.performWithDelay( 5000, update )
 	-- body
 end
@@ -146,14 +131,6 @@ for i = 1, 1000 do
 	if players[i]~=nil then
 	players[i].x=players[i].x+addx
 players[i].y=players[i].y+addy
-	pnick[i].x=players[i].x
-pnick[i].y=players[i].y-24
-	end
-end
-for i = 1, #npcs do
-	if npcs[i]~=nil then
-	npcs[i].x=npcs[i].x+addx
-npcs[i].y=npcs[i].y+addy
 	end
 end
 end

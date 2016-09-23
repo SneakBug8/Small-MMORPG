@@ -72,6 +72,7 @@ function chatcheck(message)
 name= string.sub(message.chat, 9)
  elseif string.match (message.chat,"/delme") then
 display.remove(players[message.id])
+display.remove(pnick[message.id])
 players[message.id]=nil
 	else
 

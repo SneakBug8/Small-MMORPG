@@ -33,6 +33,7 @@ map = display.newImage (Background,"assets/gui/background.png",  display.content
         -- Code here runs when the scene is still off screen (but is about to come on screen)
 blocks = {{31,32},{33,32},{32,33},{32,31}}
 tps = {{31,1,"map0"},{100,100,"map0"}}
+_G.battles = {{30,30,50,1,1},{100,30,50,1,1}}
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
     end

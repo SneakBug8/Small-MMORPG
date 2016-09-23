@@ -11,6 +11,8 @@ composer = require( "composer" )
 require("noobhub")
 require ("assets.battle")
 require ("assets.chat")
+require ("assets.move")
+require ("assets.npcs")
 _G.id = math.random (1,1000)
 _G.sprite="char2"
 Background = display.newGroup()  
@@ -45,12 +47,15 @@ upbutton:addEventListener( "tap", goup )
 downbutton:addEventListener( "tap", godown )
 leftbutton:addEventListener( "tap", goleft )
 rightbutton:addEventListener( "tap", goright )
+npcs={}
+pnick={}
 end
 
 	function goup()
 		blockcheck(0,-1)
 		tpcheck(0,-1)
 		 battlecheck(0,-1)
+		 dialcheck (0,-1)
 map.y=map.y+32
 go(0,32)
 	-- player.y=player.y+32
@@ -61,6 +66,7 @@ function godown()
 blockcheck(0,1)
 tpcheck(0,1)
 battlecheck(0,1)
+dialcheck (0,1)
 map.y=map.y-32
 go(0,-32)
 	reload()
@@ -69,6 +75,7 @@ function goleft()
 	blockcheck(-1,0)
 	tpcheck(-1,0)
 	battlecheck(-1,0)
+	dialcheck (-1,0)
 map.x=map.x+32
 go(32,0)
 	-- player.x=player.x+32
@@ -79,6 +86,7 @@ function goright()
 	blockcheck(1,0)
 	tpcheck(1,0)
 	battlecheck(1,0)
+	dialcheck (1,0)
 map.x=map.x-32
 go(-32,0)
 	-- player.x=player.x-32

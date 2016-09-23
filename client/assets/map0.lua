@@ -33,8 +33,11 @@ map = display.newImage (Background,"assets/maps/map0.png",  display.contentCente
 blocks = {{32,35},{32,36},{32,37}}
 -- Coordx, coordy, map
 tps = {{24,64,"map1"},{25,64,"map1"}}
+dialnpcs={{35,35,"trader"}}
 -- Coordx, coordy, hp, atk, def
 _G.battles = {{30,30,50,1,1},{100,30,50,1,1}}
+--  _G.npcs[1]=display.newImage (playergroup, "assets/characters/trader.png",(10*32),(9*32)+16)
+-- _G.npcs[2]=display.newImage (playergroup, "assets/characters/trader.png",(-5*32),(-8*32)+16)
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
     end
