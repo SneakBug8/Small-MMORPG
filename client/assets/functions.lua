@@ -26,6 +26,7 @@ myhp=100
 mydef=1
 myatk=1
 --
+tt={}
 timers={}
 chatcreate()
 playergroup=display.newGroup()

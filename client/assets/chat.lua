@@ -52,6 +52,7 @@ else
 login=1
 nickname=sending
 print (nickname)
+move("character",30,30)
 goto("map0")
 end
 end
