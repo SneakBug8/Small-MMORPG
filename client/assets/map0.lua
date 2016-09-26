@@ -36,6 +36,9 @@ tps = {{24,64,"map1"},{25,64,"map1"}}
 dialnpcs={{35,35,"trader"}}
 -- Coordx, coordy, hp, atk, def
 _G.battles = {{30,30,50,1,1},{100,30,50,1,1}}
+mobs={}
+mobs[1]=display.newImage (playergroup, "assets/characters/revolgirl.png",(10*32),(9*32)+16)
+mobs[2]=display.newImage (playergroup, "assets/characters/revolgirl.png",(5*32),(8*32)+16)
 --  _G.npcs[1]=display.newImage (playergroup, "assets/characters/trader.png",(10*32),(9*32)+16)
 -- _G.npcs[2]=display.newImage (playergroup, "assets/characters/trader.png",(-5*32),(-8*32)+16)
     elseif ( phase == "did" ) then

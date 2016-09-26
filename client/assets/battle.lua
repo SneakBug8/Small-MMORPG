@@ -1,5 +1,5 @@
 function battle (hp1, atk1, def1, hp2, atk2, def2)
-		hp1 = hp1 - (atk2*def1)
+		hp1 = hp1 - atk2
 		myhp=hp1
 		chatprint("Вы нанесли "..tostring(atk2*def1).." урона.")
 		print ("First: "..hp1.."-"..atk2.."*"..def1)
@@ -30,6 +30,7 @@ _G.hp1=hp1
 end
 
 function nextstep()
+mobcheck(0,0)
 battlecheck(0,0)
 	hpreload()
 end

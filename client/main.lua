@@ -77,6 +77,7 @@ end
 
 	-- body
 function blockcheck(addx,addy)
+mobcheck(addx,addy)
 	-- body
 if dial==1 then
 dial=0
@@ -154,6 +155,12 @@ for i = 1, #npcs do
 	if npcs[i]~=nil then
 	npcs[i].x=npcs[i].x+addx
 npcs[i].y=npcs[i].y+addy
+	end
+end
+for i = 1, #mobs do
+	if mobs[i]~=nil then
+	mobs[i].x=mobs[i].x+addx
+mobs[i].y=mobs[i].y+addy
 	end
 end
 end

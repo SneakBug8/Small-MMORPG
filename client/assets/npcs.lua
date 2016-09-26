@@ -1,9 +1,33 @@
 function npcturn ()
+mobturn()
 for i = 1, #npcs do
 gox=math.random(0,1)
 goy=math.random(0,1)
 npcs[i].x=npcs[i].x+(gox*32)
 npcs[i].y=npcs[i].y+(goy*32)
+end
+end
+function mobturn ()
+if mobs~=nil then
+for i = 1, #mobs do
+if mobs[i].x~=character.x and mobs[i].y~=character.y then
+gox=math.random(0,1)
+goy=math.random(0,1)
+mobs[i].x=mobs[i].x+(gox*32)
+mobs[i].y=mobs[i].y+(goy*32)
+end
+end
+end
+end
+
+function mobcheck (addx,addy)
+if mobs~=nil then
+for i = 1, #mobs do
+	if character.x+(addx*32)==mobs[i].x and character.y+(addy*32)==mobs[i].y then
+		print ("Mobs")
+       battle (myhp,myatk,mydef,75,1,1)
+	end
+end
 end
 end
 

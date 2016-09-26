@@ -53,6 +53,7 @@ pnick={}
 end
 
 	function goup()
+	mobcheck(0,-1)
 		blockcheck(0,-1)
 		tpcheck(0,-1)
 		 battlecheck(0,-1)
@@ -64,6 +65,7 @@ go(0,32)
 	reload()
 end
 function godown()
+mobcheck(0,1)
 blockcheck(0,1)
 tpcheck(0,1)
 battlecheck(0,1)
@@ -73,7 +75,8 @@ go(0,-32)
 	reload()
 end
 function goleft()
-	blockcheck(-1,0)
+mobcheck(-1,0)
+blockcheck(-1,0)
 	tpcheck(-1,0)
 	battlecheck(-1,0)
 	dialcheck (-1,0)
@@ -84,6 +87,7 @@ go(32,0)
 end
 
 function goright()
+mobcheck(1,0)
 	blockcheck(1,0)
 	tpcheck(1,0)
 	battlecheck(1,0)
