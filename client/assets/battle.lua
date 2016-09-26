@@ -1,36 +1,31 @@
-function battle (hp1, atk1, def1, hp2, atk2, def2)
-		hp1 = hp1 - atk2
-		myhp=hp1
-		chatprint("Вы нанесли "..tostring(atk2*def1).." урона.")
-		print ("First: "..hp1.."-"..atk2.."*"..def1)
-		if mobhp==il then
-		_G.mobhp=hp2
-		end
-		mobhp = mobhp - atk1
-		chatprint("Вы получили "..tostring(atk1*def2).." урона.")
-		print ("Second: "..mobhp.."-"..atk1.."*"..def2)
-		if hp1<=0 then
-				print ("Winner 2")
-				chatprint("Вы проиграли монстру!")
-			elseif mobhp<=0 then
+function battle (mob)
+		myhp = myhp - mobstats[mob][2]
+mobstats[mob][1] = mobstats[mob][1]-myatk
+print (mobstats[mob][1])
+		if myhp<=0 then
+		lose()
+  elseif mobstats[mob][1]<=0 and mobstats[mob][1] > -1000 then
 			chatprint("Вы убили монстра!")
+			mobstats[mob][1]=-1000
 				print ("Winner 1")
-				myatk=myatk+1
-				mydef=mydef+1
+				exp()
 			end
-		if hp1>0 and mobhp>0 then
-_G.hp1=hp1
-	_G.atk1=atk1
-	_G.def1=def1
-	_G.hp2=hp2
-	_G.atk2=atk2
-	_G.def2=def2
+if myhp>0 and mobstats[mob][1]>0 then
 			timer.performWithDelay( 500, nextstep)
 	end
 end
 
 function nextstep()
 mobcheck(0,0)
-battlecheck(0,0)
 	hpreload()
+end
+
+function lose()
+	print ("Winner 2")
+ chatprint("You died")
+end
+
+function exp()
+myatk=myatk+1
+mydef=mydef+1
 end

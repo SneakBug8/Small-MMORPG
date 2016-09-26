@@ -77,7 +77,6 @@ end
 
 	-- body
 function blockcheck(addx,addy)
-mobcheck(addx,addy)
 	-- body
 if dial==1 then
 dial=0
@@ -90,17 +89,6 @@ for i = 1, #blocks do
 		map.x=map.x+(addx*32)
 		map.y=map.y+(addy*32)
 	end
-end
-end
-function battlecheck(addx,addy)
-if battles~=nil then
-temp={coordx+addx,coordy+addy}
-for i = 1, #tps do
-	if temp[1]==battles[i][1] and temp[2]==battles[i][2] then
-		print ("Battle!")
-		battle(myhp,myatk,mydef,battles[i][3],battles[i][4],battles[i][5])
-	end
-end
 end
 end
 function tpcheck(addx,addy)

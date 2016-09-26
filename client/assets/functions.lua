@@ -31,7 +31,6 @@ timers={}
 chatcreate()
 playergroup=display.newGroup()
 readsprite()
-print (sprite)
 if sprite==nil then
 sprite="char"
 end
@@ -50,13 +49,14 @@ leftbutton:addEventListener( "tap", goleft )
 rightbutton:addEventListener( "tap", goright )
 npcs={}
 pnick={}
+mobstats={}
+mobhp={}
 end
 
 	function goup()
 	mobcheck(0,-1)
 		blockcheck(0,-1)
 		tpcheck(0,-1)
-		 battlecheck(0,-1)
 		 dialcheck (0,-1)
 map.y=map.y+32
 go(0,32)
@@ -68,7 +68,6 @@ function godown()
 mobcheck(0,1)
 blockcheck(0,1)
 tpcheck(0,1)
-battlecheck(0,1)
 dialcheck (0,1)
 map.y=map.y-32
 go(0,-32)
@@ -78,7 +77,6 @@ function goleft()
 mobcheck(-1,0)
 blockcheck(-1,0)
 	tpcheck(-1,0)
-	battlecheck(-1,0)
 	dialcheck (-1,0)
 map.x=map.x+32
 go(32,0)
@@ -90,7 +88,6 @@ function goright()
 mobcheck(1,0)
 	blockcheck(1,0)
 	tpcheck(1,0)
-	battlecheck(1,0)
 	dialcheck (1,0)
 map.x=map.x-32
 go(-32,0)
