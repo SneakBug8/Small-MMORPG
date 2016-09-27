@@ -1,5 +1,6 @@
 function battle (mob)
-		myhp = myhp - mobstats[mob][2]
+if mob~=nil then
+myhp = myhp - mobstats[mob][2]
 mobstats[mob][1] = mobstats[mob][1]-myatk
 print (mobstats[mob][1])
 		if myhp<=0 then
@@ -12,6 +13,7 @@ print (mobstats[mob][1])
 			end
 if myhp>0 and mobstats[mob][1]>0 then
 			timer.performWithDelay( 500, nextstep)
+	end
 	end
 end
 

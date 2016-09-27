@@ -26,9 +26,11 @@ end
 
 function mobcheck (addx,addy)
 if mobs~=nil then
-for i = 1, #mobs do
+for i = 0, #mobs do
+if mobs[i]~=nil then
 	if character.x+(addx*32)==mobs[i].x and character.y+(addy*32)==mobs[i].y then
        battle (i)
+	end
 	end
 end
 end

@@ -23,13 +23,18 @@ end
 
 -- show()
 function scene:show( event )
-display.remove(map)
-display.remove(map)
     local sceneGroup = self.view
     local phase = event.phase
-map = display.newImage (Background,"assets/maps/map0.png",  display.contentCenterX+16, display.contentCenterY+16)
+-- map = display.newImage (Background,"assets/maps/map0.png",  display.contentCenterX+16, display.contentCenterY+16)
     if ( phase == "will" ) then
+    blockinit()
         -- Coordx, coordy
+    display.remove(map)
+local mapData = require "map0" -- load from lua export
+_G.map = tiled.new(mapData)
+map.x = display.contentCenterX - map.designedWidth/2 + 16
+map.y = display.contentCenterY - map.designedHeight/2 + 16
+interface:insert(map)
 blocks = {{32,35},{32,36},{32,37}}
 -- Coordx, coordy, map
 tps = {{24,64,"map1"},{25,64,"map1"}}
@@ -41,6 +46,7 @@ mobs[2]=display.newImage (playergroup, "assets/characters/revolgirl.png",(10*32)
 mobs[3]=display.newImage (playergroup, "assets/characters/revolgirl.png",(5*32),(8*32)+16)
 mobstats[1]={75,1,1}
 mobstats[2]={75,1,1}
+mobstats[3]={75,1,1}
 --  _G.npcs[1]=display.newImage (playergroup, "assets/characters/trader.png",(10*32),(9*32)+16)
 -- _G.npcs[2]=display.newImage (playergroup, "assets/characters/trader.png",(-5*32),(-8*32)+16)
     elseif ( phase == "did" ) then

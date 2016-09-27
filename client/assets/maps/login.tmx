@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="64" tilewidth="32" tileheight="32" nextobjectid="39">
+ <tileset firstgid="1" name="brickSpecial06" tilewidth="32" tileheight="32" tilecount="4" columns="2">
+  <image source="../../toy-bricks/brickSpecial06.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="5" name="rr" tilewidth="1" tileheight="1" tilecount="0" columns="0"/>
+ <objectgroup name="Слой объектов 1">
+  <object id="1" gid="4" x="544" y="736" width="32" height="32"/>
+  <object id="2" gid="4" x="768" y="960" width="32" height="32"/>
+  <object id="3" gid="4" x="704" y="992" width="32" height="32"/>
+  <object id="4" gid="1" x="1024" y="800" width="32" height="32"/>
+  <object id="5" gid="1" x="416" y="864" width="32" height="32"/>
+  <object id="6" gid="1" x="448" y="1088" width="32" height="32"/>
+  <object id="7" gid="1" x="800" y="1152" width="32" height="32"/>
+  <object id="8" gid="1" x="1088" y="1120" width="32" height="32"/>
+  <object id="9" gid="1" x="896" y="800" width="32" height="32"/>
+  <object id="10" gid="1" x="544" y="736" width="32" height="32"/>
+  <object id="11" gid="1" x="704" y="992" width="32" height="32"/>
+  <object id="12" gid="1" x="672" y="960" width="32" height="32"/>
+  <object id="13" gid="1" x="832" y="704" width="32" height="32"/>
+  <object id="14" gid="1" x="896" y="832" width="32" height="32"/>
+  <object id="15" gid="1" x="800" y="992" width="32" height="32"/>
+  <object id="16" gid="1" x="640" y="1056" width="32" height="32"/>
+  <object id="17" gid="1" x="640" y="1120" width="32" height="32"/>
+  <object id="18" gid="1" x="640" y="1120" width="32" height="32"/>
+  <object id="19" gid="3" x="640" y="1248" width="32" height="32"/>
+  <object id="20" gid="3" x="896" y="1088" width="32" height="32"/>
+  <object id="21" gid="3" x="736" y="1088" width="32" height="32"/>
+  <object id="22" gid="3" x="992" y="1024" width="32" height="32"/>
+  <object id="23" name="mybl" type="block" gid="2" x="992" y="1088" width="32" height="32"/>
+  <object id="24" gid="2" x="800" y="1344" width="32" height="32"/>
+  <object id="25" gid="2" x="992" y="1248" width="32" height="32"/>
+  <object id="26" gid="2" x="896" y="896" width="32" height="32"/>
+ </objectgroup>
+</map>

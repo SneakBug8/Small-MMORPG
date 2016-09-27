@@ -17,19 +17,19 @@ _G.id = math.random (1,1000)
 _G.sprite="char2"
 Background = display.newGroup()  
 objects = display.newGroup()  --this will overlay 'farBackground'  
+playergroup=display.newGroup()
 interface = display.newGroup()  --and this will overlay 'nearBackground'
 _G.location="map0"
 coords = display.newText("Hello World!", 100, 200, native.systemFont, 16 )
 players={}
 -- Battle stats
-myhp=100
+_G.myhp=100
 mydef=1
 myatk=1
 --
 tt={}
 timers={}
 chatcreate()
-playergroup=display.newGroup()
 readsprite()
 if sprite==nil then
 sprite="char"
@@ -49,7 +49,7 @@ leftbutton:addEventListener( "tap", goleft )
 rightbutton:addEventListener( "tap", goright )
 npcs={}
 pnick={}
-mobstats={}
+_G.mobstats={}
 mobhp={}
 end
 
@@ -144,4 +144,8 @@ end
 
 function hpreload()
 hptext.text="HP: "..myhp
+end
+
+function blockinit()
+
 end

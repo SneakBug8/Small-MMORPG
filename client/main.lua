@@ -6,8 +6,27 @@
 
 -- Your code here
 require("assets.functions")
-init()
 
+function tiledinit()
+_G.tiled = require "com.ponywolf.ponytiled"
+_G.physics = require "physics"
+local json = require "json"
+
+display.setDefault("background", 0.2)
+physics.start()
+-- physics.setDrawMode( "hybrid" )
+physics.setGravity( 0,0 )
+physics.addBody(character, "dynamic", {bounce=0} )
+local mapData = require "login" -- load from lua export
+_G.map = tiled.new(mapData)
+map.x = display.contentCenterX - map.designedWidth/2 + 16
+map.y = display.contentCenterY - map.designedHeight/2 + 16
+interface:insert(map)
+_G.kk = map:findObject("mybl")
+physics.addBody(kk, "static", {} )
+end
+init()
+tiledinit()
 function  start ()
 	-- body
 	goto("login")
@@ -57,8 +76,8 @@ function reload(type)
 	else
 		type="move"
 	end
-coordx=-(((map.x-1024-176+32)/32)-1)
-coordy=-(((map.y-1024-256+32)/32)-1)
+coordx=-(((map.x-176+32)/32)-1)
+coordy=-(((map.y-256+32)/32)-1)
 coords.text = "X: "..coordx.." Y: "..coordy
 hub:publish({
 		message = {
@@ -115,7 +134,7 @@ end
 function goto(scene)
 	composer.gotoScene("assets."..scene)
 	location = scene
-	Background:insert(map)
+     Background:insert(map)
 end
 function showinventory()
 if iss==0 then
@@ -145,6 +164,7 @@ for i = 1, #npcs do
 npcs[i].y=npcs[i].y+addy
 	end
 end
+if mobs~=nil then
 for i = 1, #mobs do
 	if mobs[i]~=nil then
 	mobs[i].x=mobs[i].x+addx
@@ -152,6 +172,7 @@ mobs[i].y=mobs[i].y+addy
 	end
 end
 end
+end
 -- Max end. Initiation
-start()
+ start()
 update()
