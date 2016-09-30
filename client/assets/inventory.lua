@@ -1,85 +1,102 @@
-local composer = require( "composer" )
-
-local scene = composer.newScene()
-
--- -----------------------------------------------------------------------------------
--- Code outside of the scene event functions below will only be executed ONCE unless
--- the scene is removed entirely (not recycled) via "composer.removeScene()"
--- -----------------------------------------------------------------------------------
-
-
-
-
--- -----------------------------------------------------------------------------------
--- Scene event functions
--- -----------------------------------------------------------------------------------
-
--- create()
-function scene:create( event )
-    local sceneGroup = self.view
-    -- Code here runs when the scene is first created but has not yet appeared on screen
-_G.inventoryclose = display.newImage ("assets/gui/closeinventory.png",  display.contentWidth-32, 5)
-sceneGroup:insert(inventoryclose)
-function closeinv()
-    print ("Closeinv")
-composer.hideOverlay()
-
-
+function invinit()
+items={}
+items[1]="-"
+items[2]="-"
+items[3]="-"
+items[4]="-"
+items[5]="-"
+items[6]="-"
+items[7]="-"
+items[8]="-"
+items[9]="-"
+for i=1,5 do
+slots[i]="-"
 end
-inventoryclose:addEventListener( "tap", closeinv)
+iis=0
+invtexts={}
+for i=1,9 do
+getitem(i)
+invtexts[i]= display.newText(items[i], 1000, chatinput.y+i*30, native.systemFont, 16 )
+end
+for i=1,5 do
+slotstexts[i]=display.newText(slots[i], 1000, chatinput.y+i*30, native.systemFont, 16 )
+end
+invback = display.newImage (interface,"assets/gui/invback.png" , 1000 , display.contentCenterY)
 end
 
-
--- show()
-function scene:show( event )
---[[ function closeinv()
-   composer.hideOverlay()
+function showinventory()
+for i=1,9 do
+--getitem(i)
+invtexts[i].x=50
 end
-inventoryclose:addEventListener( "tap", closeinv) ]]--
-    local sceneGroup = self.view
-    local phase = event.phase
+for i=1,5 do
+slotstexts[i].x=150
+end
+invback.x = display.contentCenterX
+end
 
-    if ( phase == "will" ) then
-        -- Code here runs when the scene is still off screen (but is about to come on screen)
-    elseif ( phase == "did" ) then
-        -- Code here runs when the scene is entirely on screen
+function hideinventory()
+for i=1,9 do
+--getitem(i)
+invtexts[i].x=1000
+end
+for i=1,5 do
+slotstexts[i].x=1000
+end
+invback.x = 1000
+end
+
+function getitem(num)
+-- Path for the file to read
+local path = system.pathForFile( "item"..num..".txt", system.DocumentsDirectory )
+
+-- Open the file handle
+local file, errorString = io.open( path, "r" )
+
+if not file then
+    -- Error occurred; output the cause
+    print( "File error: " .. errorString )
+else
+    -- Read data from file
+    local contents = file:read( "*a" )
+    -- Output the file contents
+    print( "Contents of " .. path .. "\n" .. contents )
+    -- Close the file handle
+    if contents~=nil then
+	items[num]=contents
     end
+    io.close( file )
+end
 end
 
-
--- hide()
-function scene:hide( event )
-map=nil
-closeinv=nil
-    local sceneGroup = self.view
-    local phase = event.phase
-
-    if ( phase == "will" ) then
-        -- Code here runs when the scene is on screen (but is about to go off screen)
-
-    elseif ( phase == "did" ) then
-        -- Code here runs immediately after the scene goes entirely off screen
-
-    end
+function changeitem (num,const)
+invtexts[num].text=const
+items[num]=const
+writeitem(num)
 end
 
-
--- destroy()
-function scene:destroy( event )
-
-    local sceneGroup = self.view
-    -- Code here runs prior to the removal of scene's view
-
+function equipitem()
 end
 
+function writeitem(num)
+local saveData = items[num]
 
--- -----------------------------------------------------------------------------------
--- Scene event function listeners
--- -----------------------------------------------------------------------------------
-scene:addEventListener( "create", scene )
-scene:addEventListener( "show", scene )
-scene:addEventListener( "hide", scene )
-scene:addEventListener( "destroy", scene )
--- -----------------------------------------------------------------------------------
+-- Path for the file to write
+local path = system.pathForFile( "item"..num..".txt", system.DocumentsDirectory )
 
-return scene
+-- Open the file handle
+local file, errorString = io.open( path, "w" )
+
+if not file then
+    -- Error occurred; output the cause
+    print( "File error: " .. errorString )
+else
+print ("File written")
+    -- Write data to file
+    file:write( saveData )
+    -- Close the file handle
+    io.close( file )
+end
+
+file = nil
+end

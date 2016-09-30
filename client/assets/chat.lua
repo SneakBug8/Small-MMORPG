@@ -3,9 +3,9 @@
 	@message - полный пакет данных
 ]]--
 function chatcreate ()
-chatbox = native.newTextBox( display.contentCenterX-25,0, 270, 70 )
+chatbox = native.newTextBox( display.contentCenterX-25,35, 270, 70 )
 chatinput = native.newTextField( display.contentCenterX, chatbox.y+45,display.contentWidth,20 )
-sendbutton = display.newImage ("assets/gui/sendchat.png",  display.contentWidth-18, chatbox.y)
+sendbutton = display.newImage ("assets/gui/sendchat.png",  display.contentWidth-20, chatbox.y)
 sendbutton:addEventListener( "tap", sendpress)
 end
 function chatinit (message)
@@ -34,7 +34,15 @@ end
 if string.match (sending,"/roll") then
 rollmodif(sending)
 end
-
+if string.match (sending,"/dice") then
+dicemodif(sending)
+end
+if string.match (sending,"/cheat666") then
+changemoney(666)
+changeitem (1,"100 @ lil")
+xp=xp+666
+hpreload()
+end
 if sending~=nil and sending~="" then
 	print ("Chat sent")
 hub:publish({
@@ -52,6 +60,7 @@ else
 login=1
 nickname=sending
 print (nickname)
+checkstats ()
 goto("map0")
 end
 end
@@ -109,3 +118,17 @@ chatsend(chatinput.text)
 chatinput.text=""
 	-- body
 end
+
+function dicemodif(sending)
+if string.match (sending,"str") then
+lol = math.random(str,6)
+add="на атаку"
+elseif string.match (sending,"agy") then
+lol = math.random(agy,6)
+add="на ловкость"
+elseif string.match (sending,"int") then
+lol = math.random(int,6)
+add="на разум"
+end
+chatsend ("выбросил "..lol.." "..add)
+end 

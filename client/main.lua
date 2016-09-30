@@ -6,27 +6,8 @@
 
 -- Your code here
 require("assets.functions")
-
-function tiledinit()
-_G.tiled = require "com.ponywolf.ponytiled"
-_G.physics = require "physics"
-local json = require "json"
-
-display.setDefault("background", 0.2)
-physics.start()
--- physics.setDrawMode( "hybrid" )
-physics.setGravity( 0,0 )
-physics.addBody(character, "dynamic", {bounce=0} )
-local mapData = require "login" -- load from lua export
-_G.map = tiled.new(mapData)
-map.x = display.contentCenterX - map.designedWidth/2 + 16
-map.y = display.contentCenterY - map.designedHeight/2 + 16
-interface:insert(map)
-_G.kk = map:findObject("mybl")
-physics.addBody(kk, "static", {} )
-end
 init()
-tiledinit()
+
 function  start ()
 	-- body
 	goto("login")
@@ -76,8 +57,8 @@ function reload(type)
 	else
 		type="move"
 	end
-coordx=-(((map.x-176+32)/32)-1)
-coordy=-(((map.y-256+32)/32)-1)
+coordx=-(((map.x-1024-176+32)/32)-1)
+coordy=-(((map.y-1024-256+32)/32)-1)
 coords.text = "X: "..coordx.." Y: "..coordy
 hub:publish({
 		message = {
@@ -124,9 +105,11 @@ end
 function update()
 	reload()
 	npcturn()
+	levelcheck()
 	if myhp<99 then
 	myhp=myhp+1
 	end
+	levelcheck()
 	timer.performWithDelay( 5000, update )
 	-- body
 end
@@ -134,18 +117,30 @@ end
 function goto(scene)
 	composer.gotoScene("assets."..scene)
 	location = scene
-     Background:insert(map)
+	Background:insert(map)
 end
-function showinventory()
+function inventorybutt()
+--[[
 if iss==0 then
-native.showWebPopup(0,0, 200, 200, "http://www.etrt.ru/characters/"..nickname..".html")
+native.showWebPopup(0,0, 200, 200, "https://sneakbug8.github.io/mmonet/characters/"..nickname..".html")
 iss=1
 else
 native.cancelWebPopup()
 iss=0
 end
+]]--
+-- Inventory beta
+if iis==0 then
+showinventory()
+iis=1
+else
+iis=0
+hideinventory()
 end
-inventory:addEventListener( "tap", showinventory)
+
+end
+
+inventory:addEventListener( "tap", inventorybutt)
 
 
 
@@ -174,5 +169,5 @@ end
 end
 end
 -- Max end. Initiation
- start()
+start()
 update()

@@ -23,11 +23,19 @@ mobcheck(0,0)
 end
 
 function lose()
+level=0
+writelevel()
 	print ("Winner 2")
  chatprint("You died")
 end
 
 function exp()
-myatk=myatk+1
-mydef=mydef+1
+xp=xp+10
+end
+
+
+function changemoney(summ)
+mymoney=mymoney+summ
+writemoney(mymoney)
+hpreload()
 end

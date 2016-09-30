@@ -18,7 +18,7 @@ local scene = composer.newScene()
 function scene:create( event )
     local sceneGroup = self.view
     -- Code here runs when the scene is first created but has not yet appeared on screen
--- map = display.newImage ("assets/gui/background.png",  display.contentCenterX+16, display.contentCenterY+16)
+map = display.newImage ("assets/gui/background.png",  display.contentCenterX+16, display.contentCenterY+16)
 chatbox = native.newTextBox( display.contentCenterX,display.contentCenterY-100, 280, 140 )
 chatinput = native.newTextField( display.contentCenterX, chatbox.y+85,display.contentWidth,20 )
 sendbutton = display.newImage ("assets/gui/sendchat.png",  display.contentCenterX, chatinput.y+32)

@@ -25,13 +25,9 @@ end
 function scene:show( event )
 display.remove(map)
 display.remove(map)
-local mapData = require "map1" -- load from lua export
-_G.map = tiled.new(mapData)
-map.x = display.contentCenterX - map.designedWidth/2 + 16
-map.y = display.contentCenterY - map.designedHeight/2 + 16
     local sceneGroup = self.view
     local phase = event.phase
--- map = display.newImage (Background,"assets/maps/map1.png",  display.contentCenterX+16, display.contentCenterY+16)
+map = display.newImage (Background,"assets/maps/map1.png",  display.contentCenterX+16, display.contentCenterY+16)
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
 blocks = {{1,2},{2,1}}

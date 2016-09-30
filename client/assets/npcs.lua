@@ -49,7 +49,7 @@ end
 end
 
 function dialog(num)
-native.showWebPopup(0,0, 200, 200, "http://www.etrt.ru/dialogs/"..num..".html")
+native.showWebPopup(0,0, 200, 200, "https://sneakbug8.github.io/mmonet/dialogs/"..num..".html")
 dial=1
 end
 
