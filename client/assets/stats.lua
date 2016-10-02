@@ -3,7 +3,10 @@ if xp>level*100 then
 xp=xp-level*100
 level=level+1
 end
+x=x+1
+if x==5 then
 writelevel()
+end
 reloadstats()
 -- readstats()
 end
@@ -55,4 +58,10 @@ agy=1
 int=1
 end
 print (str..agy..int)
+end
+
+function getsuff()
+if nickname == "danafrid" then
+suff="[ADM]"
+end
 end

@@ -20,3 +20,17 @@ tt[3]=movey
 timer.performWithDelay( 15, move)
 end
 end
+
+function triggeract(num)
+if num==1 then
+chatprint ("Вы подобрали камень")
+stone = 1
+elseif num==2 then
+if stone==1 then
+stone=0
+mymoney=mymoney+10
+hpreload()
+chatprint ("Вы отнесли камень")
+end
+end
+end

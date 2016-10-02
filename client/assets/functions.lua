@@ -8,6 +8,7 @@ function init()
 print ("Game started")
 crypto = require("crypto")
 composer = require( "composer" )
+widget = require( "widget" )
 require("noobhub")
 require ("assets.battle")
 require ("assets.chat")
@@ -27,7 +28,7 @@ objects = display.newGroup()  --this will overlay 'farBackground'
 playergroup=display.newGroup()
 interface = display.newGroup()  --and this will overlay 'nearBackground'
 _G.location="map0"
-coords = display.newText(playergroup,"Hello World!", 100, 200, native.systemFont, 16 )
+coords = display.newText(playergroup,"Hello World!", 40, display.contentHeight, native.systemFont, 12 )
 players={}
 -- Battle stats
 myhp=100
@@ -37,6 +38,8 @@ _G.mymoney=100
 level=1
 xp=100
 readmoney()
+suff=""
+getsuff()
 --
 tt={}
 timers={}
@@ -48,14 +51,34 @@ end
 nickname="none"
 character = display.newImage (interface,"assets/characters/"..sprite..".png" ,display.contentCenterX , display.contentCenterY)
 idtext = display.newText(id, 5000, display.contentHeight, native.systemFont, 16 )
-hptext = display.newText("HP: "..myhp, display.contentWidth-30, display.contentHeight, native.systemFont, 16 )
-moneytext = display.newText("Gold: "..mymoney, display.contentWidth-50, chatinput.y+20, native.systemFont, 16 )
-leveltext = display.newText("XP: "..xp.." Level: "..level, 100, chatinput.y+20, native.systemFont, 16 )
+hptext = display.newText("HP: "..myhp, display.contentWidth-50, display.contentHeight-60, native.systemFont, 16 )
+moneytext = display.newText("Gold: "..mymoney, display.contentWidth-50, display.contentHeight-40, native.systemFont, 16 )
+xptext = display.newText("XP: "..xp, display.contentWidth-50,  display.contentHeight, native.systemFont, 16 )
+leveltext = display.newText("Lvl: "..level, display.contentWidth-50,  display.contentHeight-20, native.systemFont, 16 )
 downbutton = display.newImage (interface,"assets/gui/down.png" , display.contentCenterX-50 , display.contentHeight-15)
 upbutton = display.newImage (interface,"assets/gui/up.png" , downbutton.x, downbutton.y-64*2)
 leftbutton = display.newImage (interface,"assets/gui/left.png" , downbutton.x-64 , downbutton.y-64)
 rightbutton = display.newImage (interface,"assets/gui/right.png" , downbutton.x+64 , downbutton.y-64)
-_G.inventory = display.newImage (interface,"assets/gui/inventory.png",  downbutton.x, downbutton.y-64)
+iss=0
+inventory = widget.newButton(
+    {
+        label = "Inv",
+        labelColor = { default={ 1, 1, 1 }, over={ 0, 0, 0, 0.5 } },
+        onEvent = inventorybutt,
+        emboss = false,
+        -- Properties for a rounded rectangle button
+        shape = "roundedRect",
+        width = 64,
+        height = 64,
+        cornerRadius = 2,
+        fillColor = { default={0.5,0.5,0.5,1}, over={0.5,0.5,0.5,0.5} },
+    }
+)
+
+-- Center the button
+inventory.x = downbutton.x
+inventory.y = downbutton.y-64
+-- _G.inventory = display.newImage (interface,"assets/gui/inventory.png",  downbutton.x, downbutton.y-64)
 upbutton:addEventListener( "tap", goup )
 downbutton:addEventListener( "tap", godown )
 leftbutton:addEventListener( "tap", goleft )
@@ -68,6 +91,7 @@ items={}
 invinit()
 slots={1,2,3}
 readlevel()
+x=0
 end
 
 	function goup()
@@ -162,7 +186,8 @@ end
 function hpreload()
 hptext.text="HP: "..myhp
 moneytext.text="Gold: "..mymoney
-leveltext.text="XP: "..xp.." Level: "..level
+leveltext.text="Lvl: "..level
+xptext.text="XP: "..xp
 end
 
 

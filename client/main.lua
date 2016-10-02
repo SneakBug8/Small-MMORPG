@@ -6,7 +6,25 @@
 
 -- Your code here
 require("assets.functions")
-init()
+
+
+
+
+local widget = require( "widget" )
+
+-- Function to handle button events
+local function handleButtonEvent( event )
+
+    if ( "ended" == event.phase ) then
+        print( "Button was pressed and released" )
+    end
+end
+
+-- Cre
+
+-- Change the button's label tex
+
+
 
 function  start ()
 	-- body
@@ -38,8 +56,11 @@ elseif players[message.id]==nil and message.id~=id then
 	print ("Нов пакет")
 -- _G.nick=tostring(message.nickname)
 if message.nickname~="none" then
-pnick[message.id] = display.newText(message.nickname, display.contentCenterX,display.contentCenterY, native.systemFont, 16 )
+	local playerx=(coordx-message.coordx)*32
+local playery=(coordy-message.coordy)*32
+pnick[message.id] = display.newText(message.suff.." "..message.nickname, display.contentCenterX,display.contentCenterY, native.systemFont, 16 )
 players[message.id]=display.newImage (playergroup, "assets/characters/"..message.sprite..".png",display.contentCenterX,display.contentCenterY)
+
 end
 -- players.nick.x=45
 else
@@ -66,6 +87,7 @@ hub:publish({
 			id=id,
 			type=type,
 			sprite=sprite,
+			suff=suff,
 			location=location,
 			coordx = coordx,
 			coordy = coordy,
@@ -90,6 +112,19 @@ for i = 1, #blocks do
 		map.y=map.y+(addy*32)
 	end
 end
+triggercheck(addx,addy)
+end
+function triggercheck(addx,addy)
+if triggers~=nil then
+	-- body
+	temp={coordx+addx,coordy+addy}
+for i = 1, #triggers do
+	if temp[1]==triggers[i][2] and temp[2]==triggers[i][3] then
+		print ("trigger!")
+triggeract(triggers[i][1])
+	end
+end
+end
 end
 function tpcheck(addx,addy)
 	-- body
@@ -105,7 +140,6 @@ end
 function update()
 	reload()
 	npcturn()
-	levelcheck()
 	if myhp<99 then
 	myhp=myhp+1
 	end
@@ -120,7 +154,7 @@ function goto(scene)
 	Background:insert(map)
 end
 function inventorybutt()
---[[
+
 if iss==0 then
 native.showWebPopup(0,0, 200, 200, "https://sneakbug8.github.io/mmonet/characters/"..nickname..".html")
 iss=1
@@ -128,7 +162,8 @@ else
 native.cancelWebPopup()
 iss=0
 end
-]]--
+print ("Inv")
+--[[
 -- Inventory beta
 if iis==0 then
 showinventory()
@@ -137,10 +172,10 @@ else
 iis=0
 hideinventory()
 end
+]]--
 
 end
 
-inventory:addEventListener( "tap", inventorybutt)
 
 
 
@@ -169,5 +204,6 @@ end
 end
 end
 -- Max end. Initiation
+init()
 start()
 update()

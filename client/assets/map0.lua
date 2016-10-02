@@ -31,6 +31,7 @@ map = display.newImage (Background,"assets/maps/map0.png",  display.contentCente
     if ( phase == "will" ) then
         -- Coordx, coordy
 blocks = {{32,35},{32,36},{32,37}}
+triggers = {{1,35,30},{2,40,30}}
 -- Coordx, coordy, map
 tps = {{24,64,"map1"},{25,64,"map1"}}
 dialnpcs={{35,35,"trader"}}

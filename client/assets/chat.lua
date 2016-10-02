@@ -5,8 +5,25 @@
 function chatcreate ()
 chatbox = native.newTextBox( display.contentCenterX-25,35, 270, 70 )
 chatinput = native.newTextField( display.contentCenterX, chatbox.y+45,display.contentWidth,20 )
-sendbutton = display.newImage ("assets/gui/sendchat.png",  display.contentWidth-20, chatbox.y)
-sendbutton:addEventListener( "tap", sendpress)
+-- sendbutton = display.newImage ("assets/gui/sendchat.png",  display.contentWidth-20, chatbox.y)
+sendbutton = widget.newButton(
+    {
+        label = "Send",
+		labelColor = { default={ 1, 1, 1 }, over={ 0, 0, 0, 0.5 } },
+        onEvent = sendpress,
+        emboss = false,
+        -- Properties for a rounded rectangle button
+        shape = "roundedRect",
+        width = 64,
+        height = 64,
+        cornerRadius = 2,
+        fillColor = { default={0.5,0.5,0.5,1}, over={0.5,0.5,0.5,0.5} },
+    }
+)
+
+-- Center the button
+sendbutton.x = display.contentWidth-20
+sendbutton.y = chatbox.y
 end
 function chatinit (message)
 -- Вызов при получении сообщении чата
@@ -31,6 +48,9 @@ end
 if string.match (sending,"/sprite") then
 spritemodif(sending)
 end
+if string.match (sending,"/who") then
+whomodif(sending)
+end
 if string.match (sending,"/roll") then
 rollmodif(sending)
 end
@@ -51,6 +71,7 @@ hub:publish({
 			id=id,
 			type="chat",
 			location=location,
+			suff=suff,
 			coordx = coordx,
 			coordy = coordy,
 			chat = sending }
@@ -132,3 +153,13 @@ add="на разум"
 end
 chatsend ("выбросил "..lol.." "..add)
 end 
+
+function whomodif(sending)
+pp=0
+for i=1,1000 do
+if players[i]~=nil then
+pp=pp+1
+end
+end
+chatprint(pp.." players online")
+end
