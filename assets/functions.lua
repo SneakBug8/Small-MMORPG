@@ -39,7 +39,6 @@ level=1
 xp=100
 readmoney()
 suff=""
-getsuff()
 --
 tt={}
 timers={}
@@ -92,6 +91,8 @@ invinit()
 slots={1,2,3}
 readlevel()
 x=0
+killed={}
+kk=0
 end
 
 	function goup()

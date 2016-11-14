@@ -15,7 +15,7 @@ end
 iis=0
 invtexts={}
 for i=1,9 do
-getitem(i)
+-- getitem(i)
 invtexts[i]= display.newText(items[i], 1000, chatinput.y+i*30, native.systemFont, 16 )
 end
 for i=1,5 do

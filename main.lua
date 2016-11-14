@@ -143,6 +143,7 @@ function update()
 	if myhp<99 then
 	myhp=myhp+1
 	end
+	mobrespawn()
 	levelcheck()
 	timer.performWithDelay( 5000, update )
 	-- body
@@ -156,8 +157,10 @@ end
 function inventorybutt()
 
 if iss==0 then
+if nickname~="none" then
 native.showWebPopup(0,0, 200, 200, "https://sneakbug8.github.io/mmonet/characters/"..nickname..".html")
 iss=1
+end
 else
 native.cancelWebPopup()
 iss=0

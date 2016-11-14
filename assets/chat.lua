@@ -81,6 +81,7 @@ else
 login=1
 nickname=sending
 print (nickname)
+getsuff()
 checkstats ()
 goto("map0")
 end
